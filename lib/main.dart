@@ -11,13 +11,15 @@ import 'package:powermeter_app/pages/page_names.dart' as page_names;
 void main() {
   runApp(const PowerMeterApp());
 }
-
+final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
   initialLocation: '/overview/devices',
   routes: [
     GoRoute(
+      parentNavigatorKey: _rootNavigatorKey,
       name: page_names.addDevice,
-      path: '/wizard/add-device',
+      path: '/add-device',
       pageBuilder: (context, state) => NoTransitionPage(child: AddDevicePage()),
     ),
     ShellRoute(

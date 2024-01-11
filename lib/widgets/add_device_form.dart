@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 class AddDeviceForm extends StatefulWidget {
   final GlobalKey<FormState> formKey;
+  final TextEditingController ipController;
+  final TextEditingController deviceNameController;
 
-  const AddDeviceForm({required this.formKey, super.key});
+  const AddDeviceForm({
+    required this.formKey,
+    required this.ipController,
+    required this.deviceNameController,
+    super.key
+  });
 
   @override
   State<AddDeviceForm> createState() => _AddDeviceFormState();
@@ -20,6 +27,8 @@ class _AddDeviceFormState extends State<AddDeviceForm> {
           child: Column(
             children: [
               TextFormField(
+                controller: widget.ipController,
+                keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
                   labelText: 'IP Address',
                 ),
@@ -34,6 +43,7 @@ class _AddDeviceFormState extends State<AddDeviceForm> {
                 },
               ),
               TextFormField(
+                controller: widget.deviceNameController,
                 decoration: InputDecoration(
                   labelText: 'Device Name',
                 ),

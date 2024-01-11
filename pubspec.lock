@@ -152,6 +152,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  multicast_dns:
+    dependency: "direct main"
+    description:
+      name: multicast_dns
+      sha256: f4fd1c3365171fac5160afcb1a283001d3413dee5fd41c61d80888952d609379
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.2+4"
   path:
     dependency: transitive
     description:

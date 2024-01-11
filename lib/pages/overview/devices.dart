@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:powermeter_app/pages/page_names.dart' as page_names;
 
 class DevicesPage extends StatelessWidget {
   const DevicesPage({super.key});
@@ -11,7 +12,7 @@ class DevicesPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_rounded),
         onPressed: () {
-          context.goNamed('Add Device');
+          context.pushNamed(page_names.addDevice);
         },
       ),
       body: Column(

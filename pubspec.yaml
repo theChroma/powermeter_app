@@ -9,6 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.13.5
+  multicast_dns: ^0.3.2+4
   go_router: ^12.0.1
   shared_preferences: ^2.2.2
 
