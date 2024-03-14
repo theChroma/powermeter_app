@@ -1,16 +1,17 @@
-import 'package:powermeter_app/pages/overview/app_settings.dart';
-import 'package:powermeter_app/pages/overview/app_info.dart';
-import 'package:powermeter_app/pages/overview/devices.dart';
-import 'package:powermeter_app/pages/wizard/add_device.dart';
+import 'package:powermeter_app/view/pages/overview/app_settings_page.dart';
+import 'package:powermeter_app/view/pages/overview/app_info_page.dart';
+import 'package:powermeter_app/view/pages/overview/devices_page.dart';
+import 'package:powermeter_app/view/pages/wizard/add_device_page.dart';
 import 'package:powermeter_app/theme.dart';
-import 'package:powermeter_app/widgets/navigation.dart';
+import 'package:powermeter_app/view/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:powermeter_app/pages/page_names.dart' as page_names;
+import 'package:powermeter_app/view/pages/page_names.dart' as page_names;
 
 void main() {
   runApp(const PowerMeterApp());
 }
+
 final _rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final _router = GoRouter(
   navigatorKey: _rootNavigatorKey,
