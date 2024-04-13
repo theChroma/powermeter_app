@@ -1,3 +1,5 @@
+import 'package:get_it/get_it.dart';
+import 'package:powermeter_app/controller/device_controller.dart';
 import 'package:powermeter_app/view/pages/overview/app_settings_page.dart';
 import 'package:powermeter_app/view/pages/overview/app_info_page.dart';
 import 'package:powermeter_app/view/pages/overview/devices_page.dart';
@@ -7,8 +9,13 @@ import 'package:powermeter_app/view/widgets/navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:powermeter_app/view/pages/page_names.dart' as page_names;
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  GetIt.instance.registerSingleton(DeviceController(
+    preferences: await SharedPreferences.getInstance(),
+  ));
   runApp(const PowerMeterApp());
 }
 

@@ -1,7 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
+import 'package:powermeter_app/controller/device_controller.dart';
+import 'package:powermeter_app/model/device.dart';
 import 'package:powermeter_app/view/pages/page_names.dart' as page_names;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
@@ -10,7 +12,7 @@ class AddDevicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormBuilderState>();
+    final formKey = GlobalKey<FormBuilderState>();
     return Scaffold(
       appBar: AppBar(
         title: Text(page_names.addDevice),
@@ -26,10 +28,11 @@ class AddDevicePage extends StatelessWidget {
           child: SizedBox(
             width: 500,
             child: FormBuilder(
-              key: _formKey,
+              key: formKey,
               child: Column(
                 children: [
                   FormBuilderTextField(
+                    autofocus: true,
                     name: 'name',
                     decoration: InputDecoration(label: Text('Display Name')),
                     validator: FormBuilderValidators.required(),
@@ -47,9 +50,12 @@ class AddDevicePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.check_rounded),
-        onPressed: () {
-          _formKey.currentState?.saveAndValidate();
-          debugPrint(_formKey.currentState?.value.toString());
+        onPressed: () async {
+          if (formKey.currentState == null) return;
+          if (formKey.currentState!.saveAndValidate()) {
+            GetIt.I<DeviceController>().add(Device.fromJson(formKey.currentState!.value));
+            context.pop();
+          }
         },
       ),
     );

@@ -24,10 +24,10 @@ class _NavigationState extends State<Navigation> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      appBar: AppBar(
-        title: Text(widget.destinations[_currentPageIndex].label!),
-        actions: widget.actions,
-      ),
+      // appBar: AppBar(
+      //   title: Text(widget.destinations[_currentPageIndex].label!),
+      //   actions: widget.actions,
+      // ),
       bottomNavigationBar: BottomNavigationBar(
         mouseCursor: MaterialStateMouseCursor.clickable,
         onTap: (int index) {
