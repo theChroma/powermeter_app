@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
-import 'package:go_router/go_router.dart';
 import 'package:powermeter_app/controller/device_controller.dart';
 import 'package:powermeter_app/model/device.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -20,7 +19,7 @@ class AddDevicePage extends StatelessWidget {
         title: Text(deviceIndex == null ? 'Add Device' : 'Edit Device'),
         leading: BackButton(
           onPressed: () {
-            context.pop();
+            Navigator.pop(context);
           },
         ),
       ),
@@ -64,7 +63,7 @@ class AddDevicePage extends StatelessWidget {
             else {
               deviceController.replace(deviceIndex!, newDevice);
             }
-            context.pop();
+            Navigator.pop(context);
           }
         },
       ),

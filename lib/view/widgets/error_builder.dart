@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class ErrorBuilder extends StatelessWidget {
   static bool isDialogShown = false;
   final Widget child;
-  final Widget Function(Object, StackTrace?, BuildContext) errorBuilder;
+  final Widget Function(Object exception, StackTrace? stackTrace, BuildContext buildContext) errorBuilder;
 
   ErrorBuilder({
     required this.child,
