@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class DeviceInfoPage extends StatelessWidget {
-  const DeviceInfoPage({super.key});
+class TrackersPage extends StatelessWidget {
+  const TrackersPage({super.key});
 
   @override
   Widget build(BuildContext context) {

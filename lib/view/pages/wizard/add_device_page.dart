@@ -4,18 +4,20 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:powermeter_app/controller/device_controller.dart';
 import 'package:powermeter_app/model/device.dart';
-import 'package:powermeter_app/view/pages/page_names.dart' as page_names;
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class AddDevicePage extends StatelessWidget {
-  AddDevicePage({super.key});
+  final deviceController = GetIt.I<DeviceController>();
+  final int? deviceIndex;
+  AddDevicePage({this.deviceIndex, super.key});
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
+    final Device? device = deviceIndex != null ? deviceController.devices[deviceIndex!] : null;
     return Scaffold(
       appBar: AppBar(
-        title: Text(page_names.addDevice),
+        title: Text(deviceIndex == null ? 'Add Device' : 'Edit Device'),
         leading: BackButton(
           onPressed: () {
             context.pop();
@@ -33,12 +35,14 @@ class AddDevicePage extends StatelessWidget {
                 children: [
                   FormBuilderTextField(
                     autofocus: true,
+                    initialValue: device?.name,
                     name: 'name',
                     decoration: InputDecoration(label: Text('Display Name')),
                     validator: FormBuilderValidators.required(),
                   ),
                   FormBuilderTextField(
                     name: 'host',
+                    initialValue: device?.host,
                     decoration: InputDecoration(label: Text('Hostname or IP')),
                     validator: FormBuilderValidators.required(),
                   )
@@ -53,7 +57,13 @@ class AddDevicePage extends StatelessWidget {
         onPressed: () async {
           if (formKey.currentState == null) return;
           if (formKey.currentState!.saveAndValidate()) {
-            GetIt.I<DeviceController>().add(Device.fromJson(formKey.currentState!.value));
+            final newDevice = Device.fromJson(formKey.currentState!.value);
+            if (deviceIndex == null) {
+              deviceController.add(newDevice);
+            }
+            else {
+              deviceController.replace(deviceIndex!, newDevice);
+            }
             context.pop();
           }
         },

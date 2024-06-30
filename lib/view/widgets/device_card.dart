@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:powermeter_app/controller/measurement_controller.dart';
 import 'package:powermeter_app/controller/power_switch_controller.dart';
 import 'package:powermeter_app/controller/selection_controller.dart';
 import 'package:powermeter_app/model/device.dart';
 import 'package:powermeter_app/view/widgets/power_switch_view.dart';
+import 'package:powermeter_app/view/pages/page_names.dart' as page_names;
 
 class DeviceCard extends StatelessWidget {
   const DeviceCard({
@@ -59,7 +61,9 @@ class DeviceCard extends StatelessWidget {
 
     if (isSelectionMode) return child;
     return GestureDetector(
-      onTap: () => debugPrint('device card tapped'),
+      onTap: () {
+        context.go('/device/dashboard');
+      },
       child: child,
     );
   }

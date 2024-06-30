@@ -32,8 +32,14 @@ class DevicesPage extends StatelessWidget {
                     ),
                     title: Text('${selectionController.selectionsCount} selected'),
                     actions: [
-                      if (selectionController.selectionsCount == 1)  IconButton(
-                        onPressed: () => debugPrint('edit clicked'),
+                      if (selectionController.selectionsCount == 1) IconButton(
+                        onPressed: () async {
+                          context.pushNamed(
+                            page_names.addDevice,
+                            extra: selectionController.selections.first,
+                          );
+                          selectionController.deselectAll();
+                        },
                         icon: Icon(Icons.edit),
                       ),
                       IconButton(
