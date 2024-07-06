@@ -23,8 +23,7 @@ class DevicesPage extends StatelessWidget {
                 canPop: false,
                 onPopInvoked: (didPop) => selectionController.deselectAll(),
                 child: AppBar(
-                  leading: IconButton(
-                    icon: Icon(Icons.close),
+                  leading: CloseButton(
                     onPressed: () => selectionController.deselectAll(),
                   ),
                   title: Text('${selectionController.selectionsCount} selected'),
@@ -66,7 +65,7 @@ class DevicesPage extends StatelessWidget {
         child: SizedBox(
           width: 1000,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             child: DeviceListView(
               deviceController: GetIt.I<DeviceController>(),
               selcetionController: selectionController,

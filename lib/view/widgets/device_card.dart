@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:powermeter_app/controller/measurement_controller.dart';
+import 'package:flutter/widgets.dart';
+import 'package:powermeter_app/controller/measurements_controller.dart';
 import 'package:powermeter_app/controller/power_switch_controller.dart';
 import 'package:powermeter_app/model/device.dart';
 import 'package:powermeter_app/view/pages/device_page.dart';
@@ -19,7 +21,7 @@ class DeviceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final measurementController = MeasurementController(host: device.host);
+    final measurementController = MeasurementsController(host: device.host);
 
     final child = SizedBox(
       width: 1000,
@@ -29,26 +31,33 @@ class DeviceCard extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Column(
-                children: [
-                  Text(
-                    device.name,
-                    style: TextStyle(
-                      fontSize: 25
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      device.name,
+                      style: TextStyle(
+                        fontSize: 20
+                      ),
                     ),
-                  ),
-                  Text(device.host),
-                ],
+                    Text(device.host),
+                  ],
+                ),
               ),
-              ListenableBuilder(
-                listenable: measurementController,
-                builder: (context, child) {
-                  final value = measurementController.measurements?.first.value.clamp(0, double.nan).toStringAsFixed(1) ?? '-';
-                  final unit = measurementController.measurements?.first.unit ?? '';
-                  return Text('$value $unit', style: TextStyle(fontSize: 25),);
-                }
+              Padding(
+                padding: EdgeInsets.only(right: 20),
+                child: ListenableBuilder(
+                  listenable: measurementController,
+                  builder: (context, child) {
+                    final primaryMeasurement = measurementController.measurements?.firstOrNull;
+                    final value = primaryMeasurement?.value.toStringAsFixed(primaryMeasurement.fractionDigits) ?? '-';
+                    final unit = primaryMeasurement?.unit ?? '';
+                    return Text('$value $unit', style: TextStyle(fontSize: 25),);
+                  }
+                ),
               ),
               PowerSwitchView(controller: PowerSwitchController(host: device.host)),
             ],

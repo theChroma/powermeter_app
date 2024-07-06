@@ -6,8 +6,8 @@ import 'package:powermeter_app/helpers/json.dart';
 import 'package:powermeter_app/helpers/lifecycle_change_notifier.dart';
 import 'package:powermeter_app/model/measurement.dart';
 
-class MeasurementController extends LifecyleChangeNotifier {
-  MeasurementController({required this.host});
+class MeasurementsController extends LifecyleChangeNotifier {
+  MeasurementsController({required this.host});
   final String host;
   static const uri = '/api/v0.0.0/measurements';
   Timer? _timer;
