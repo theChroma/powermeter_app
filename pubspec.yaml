@@ -12,7 +12,7 @@ dependencies:
   shared_preferences: ^2.2.2
   json_annotation: ^4.8.1
   flutter_form_builder: ^9.2.1
-  form_builder_validators: ^9.1.0
+  form_builder_validators: 11.0.0
   get_it: ^7.6.7
   multicast_dns: ^0.3.2+6
   nsd: ^3.0.0
