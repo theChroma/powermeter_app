@@ -61,11 +61,11 @@ class DevicesPage extends StatelessWidget {
           Navigator.push(context, MaterialPageRoute(builder: (context) => AddDevicePage()));
         },
       ),
-      body: Center(
-        child: SizedBox(
-          width: 1000,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+        child: Center(
+          child: SizedBox(
+            width: 1000,
             child: DeviceListView(
               deviceController: GetIt.I<DeviceController>(),
               selcetionController: selectionController,

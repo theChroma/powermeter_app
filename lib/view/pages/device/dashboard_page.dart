@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:powermeter_app/controller/measurements_controller.dart';
 import 'package:powermeter_app/controller/power_switch_controller.dart';
 import 'package:powermeter_app/model/device.dart';
-import 'package:powermeter_app/model/measurement.dart';
-import 'package:powermeter_app/view/widgets/measurement_card.dart';
 import 'package:powermeter_app/view/widgets/measurements_view.dart';
 import 'package:powermeter_app/view/widgets/power_switch_view.dart';
 
@@ -25,13 +22,26 @@ class DashboardPage extends StatelessWidget {
         },),
         title: Text('Dashboard'),
       ),
-      body: Center(
-        child: MeasurementsView(measurementController: MeasurementsController(host: device.host)),
-      ),
-      floatingActionButton: Positioned(
-        width: 100,
-        height: 50,
-        child: PowerSwitchView(controller: PowerSwitchController(host: device.host))
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+        child: Center(
+          child: Column(
+            children: [
+              Expanded(
+                child: MeasurementsView(measurementController: MeasurementsController(host: device.host)),
+              ),
+              SizedBox(
+                width: 200,
+                child: FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: PowerSwitchView(
+                    controller: PowerSwitchController(host: device.host)
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

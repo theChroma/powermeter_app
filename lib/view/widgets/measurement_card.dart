@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:powermeter_app/model/measurement.dart';
 
 class MeasurementCard extends StatelessWidget {
@@ -12,8 +11,7 @@ class MeasurementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 300,
+    return FittedBox(
       child: Card(
         elevation: 10,
         child: Padding(
@@ -24,7 +22,9 @@ class MeasurementCard extends StatelessWidget {
               Text(measurement.name),
               Text(
                 '${measurement.value.toStringAsFixed(measurement.fractionDigits)} ${measurement.unit}',
-                style: TextStyle(fontSize: 30),
+                style: TextStyle(
+                  fontSize: 30,
+                ),
               ),
             ],
           ),

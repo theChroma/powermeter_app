@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:powermeter_app/controller/device_controller.dart';
 import 'package:powermeter_app/controller/selection_controller.dart';
 import 'package:powermeter_app/view/widgets/device_card.dart';
-import 'package:powermeter_app/view/widgets/reorderable_duration_delayed_drag_start_listener.dart';
 import 'package:powermeter_app/view/widgets/selectable_builder.dart';
 
 class DeviceListView extends StatelessWidget {
@@ -25,8 +24,7 @@ class DeviceListView extends StatelessWidget {
           children: deviceController.devices.indexed.map((deviceAt) {
             final index = deviceAt.$1;
             final device = deviceAt.$2;
-            return ReorderableDurationDelayedDragStartListener(
-              delay: Duration(milliseconds: 2000),
+            return ReorderableDragStartListener(
               key: ValueKey(index),
               index: index,
               child: SelectableBuilder(

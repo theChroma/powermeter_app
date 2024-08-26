@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:powermeter_app/controller/measurements_controller.dart';
 import 'package:powermeter_app/controller/power_switch_controller.dart';
 import 'package:powermeter_app/model/device.dart';
@@ -39,9 +37,7 @@ class DeviceCard extends StatelessWidget {
                   children: [
                     Text(
                       device.name,
-                      style: TextStyle(
-                        fontSize: 20
-                      ),
+                      style: TextStyle(fontSize: 20),
                     ),
                     Text(device.host),
                   ],
@@ -50,16 +46,22 @@ class DeviceCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: 20),
                 child: ListenableBuilder(
-                  listenable: measurementController,
-                  builder: (context, child) {
-                    final primaryMeasurement = measurementController.measurements?.firstOrNull;
-                    final value = primaryMeasurement?.value.toStringAsFixed(primaryMeasurement.fractionDigits) ?? '-';
-                    final unit = primaryMeasurement?.unit ?? '';
-                    return Text('$value $unit', style: TextStyle(fontSize: 25),);
-                  }
-                ),
+                    listenable: measurementController,
+                    builder: (context, child) {
+                      final primaryMeasurement =
+                          measurementController.measurements?.firstOrNull;
+                      final value = primaryMeasurement?.value.toStringAsFixed(
+                              primaryMeasurement.fractionDigits) ??
+                          '-';
+                      final unit = primaryMeasurement?.unit ?? '';
+                      return Text(
+                        '$value $unit',
+                        style: TextStyle(fontSize: 25),
+                      );
+                    }),
               ),
-              PowerSwitchView(controller: PowerSwitchController(host: device.host)),
+              PowerSwitchView(
+                  controller: PowerSwitchController(host: device.host)),
             ],
           ),
         ),
