@@ -11,7 +11,8 @@ class MeasurementCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FittedBox(
+    return SizedBox(
+      width: double.infinity,
       child: Card(
         elevation: 10,
         child: Padding(
@@ -23,7 +24,7 @@ class MeasurementCard extends StatelessWidget {
               Text(
                 '${measurement.value.toStringAsFixed(measurement.fractionDigits)} ${measurement.unit}',
                 style: TextStyle(
-                  fontSize: 30,
+                  fontSize: 35,
                 ),
               ),
             ],

@@ -46,8 +46,8 @@ class DevicePage extends StatelessWidget {
               ],
             ),
             body: [
-              DashboardPage(device: device),
               TrackersPage(),
+              DashboardPage(device: device),
               DeviceSettingsPage(),
               DeviceInfoPage(),
             ][selectedIndexController.value],

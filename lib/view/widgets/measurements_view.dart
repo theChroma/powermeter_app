@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_layout_grid/flutter_layout_grid.dart';
 import 'package:powermeter_app/controller/measurements_controller.dart';
-import 'package:powermeter_app/model/measurement.dart';
 import 'package:powermeter_app/view/widgets/measurement_card.dart';
 
 class MeasurementsView extends StatelessWidget {
@@ -22,33 +22,19 @@ class MeasurementsView extends StatelessWidget {
           );
         }
         else {
-          return Row(
-            children: [
-              Column(
-                children: [
-                  MeasurementCard(measurement: Measurement(name: 'foo', value: 213, unit: 'W')),
-                  MeasurementCard(measurement: Measurement(name: 'foo', value: 213, unit: 'W')),
-                  MeasurementCard(measurement: Measurement(name: 'foo', value: 213, unit: 'W')),
-                ],
-              ),
-              Column(
-                children: [
-                  MeasurementCard(measurement: Measurement(name: 'foo', value: 213, unit: 'W')),
-                  MeasurementCard(measurement: Measurement(name: 'foo', value: 213, unit: 'W')),
-                  MeasurementCard(measurement: Measurement(name: 'foo', value: 213, unit: 'W')),
-                ],
-              )
-            ],
-          );
-          return GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 10,
-            crossAxisSpacing: 10,
-            childAspectRatio: 2,
-            children: [
-              for (final measurement in measurementController.measurements!)
-                MeasurementCard(measurement: measurement),
-            ]
+          final measurements = measurementController.measurements!;
+          return SizedBox(
+            width: 1000,
+            child: LayoutGrid(
+              columnSizes: [1.fr, 1.fr],
+              rowSizes: List.filled(measurements.length, auto),
+              rowGap: 10,
+              columnGap: 10,
+              children: [
+                for (final measurement in measurements)
+                  MeasurementCard(measurement: measurement),
+              ],
+            ),
           );
         }
       },
