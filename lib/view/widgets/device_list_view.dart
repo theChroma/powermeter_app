@@ -24,26 +24,38 @@ class DeviceListView extends StatelessWidget {
           children: deviceController.devices.indexed.map((deviceAt) {
             final index = deviceAt.$1;
             final device = deviceAt.$2;
-            return ReorderableDragStartListener(
+            return SelectableBuilder(
               key: ValueKey(index),
-              index: index,
-              child: SelectableBuilder(
-                id: index,
-                selectionController: selcetionController,
-                builder: (context, isSelected) {
-                  return DeviceCard(
+              id: index,
+              selectionController: selcetionController,
+              builder: (context, isSelected) {
+                return ReorderableDragStartListener(
+                  index: index,
+                  enabled: isSelected,
+                  child: DeviceCard(
                     device: device,
                     isSelected: isSelected,
                     isSelectionMode: selcetionController.hasSelection,
-                  );
-                }
-              )
+                  ),
+                );
+              }
             );
           }).toList(),
           onReorder: (oldIndex, newIndex) {
+            reorderSelections(oldIndex, newIndex);
             deviceController.reorder(oldIndex, newIndex);
         });
       },
     );
+  }
+
+  void reorderSelections(int oldIndex, int newIndex) {
+    if (oldIndex < newIndex) {
+      newIndex--;
+    }
+    if (!selcetionController.isSelected(newIndex)) {
+      selcetionController.deselect(oldIndex);
+    }
+    selcetionController.select(newIndex);
   }
 }
