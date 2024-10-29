@@ -28,7 +28,14 @@ class TrackersController extends LifecyleChangeNotifier {
   }
 
   Future<void> fetch() async {
-    trackers = await fetcher.getTrackers();
+    final unsortedTrackers = await fetcher.getTrackers();
+    trackers = Map.fromEntries(
+      unsortedTrackers.entries
+      .toList()
+      ..sort(
+        (a, b) => a.value.duration.compareTo(b.value.duration),
+      )
+    );
     notifyListeners();
   }
 }
