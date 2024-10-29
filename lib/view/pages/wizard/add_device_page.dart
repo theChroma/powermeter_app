@@ -6,7 +6,7 @@ import 'package:powermeter_app/model/device.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class AddDevicePage extends StatelessWidget {
-  final deviceController = GetIt.I<DeviceController>();
+  final deviceController = GetIt.I<DevicesController>();
   final int? deviceIndex;
   AddDevicePage({this.deviceIndex, super.key});
 

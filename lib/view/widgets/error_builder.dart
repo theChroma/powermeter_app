@@ -38,7 +38,7 @@ class ErrorBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     PlatformDispatcher.instance.onError = (exception, stackTrace) {
-      // _showErrorDialog(exception, stackTrace, context);
+      _showErrorDialog(exception, stackTrace, context);
       return true;
     };
     FlutterError.onError = (errorDetails) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:powermeter_app/controller/measurements_controller.dart';
 import 'package:powermeter_app/controller/power_switch_controller.dart';
 import 'package:powermeter_app/model/device.dart';
@@ -19,7 +20,7 @@ class DeviceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final measurementController = MeasurementsController(host: device.host);
+    final measurementController = GetIt.I<MeasurementsController>(param1: device.host);
 
     final child = SizedBox(
       width: 1000,
@@ -46,22 +47,24 @@ class DeviceCard extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.only(right: 20),
                 child: ListenableBuilder(
-                    listenable: measurementController,
-                    builder: (context, child) {
-                      final primaryMeasurement =
-                          measurementController.measurements?.firstOrNull;
-                      final value = primaryMeasurement?.value.toStringAsFixed(
-                              primaryMeasurement.fractionDigits) ??
-                          '-';
-                      final unit = primaryMeasurement?.unit ?? '';
-                      return Text(
-                        '$value $unit',
-                        style: TextStyle(fontSize: 25),
-                      );
-                    }),
+                  listenable: measurementController,
+                  builder: (context, child) {
+                    final primaryMeasurement =
+                        measurementController.measurements?.firstOrNull;
+                    final value = primaryMeasurement?.value.toStringAsFixed(
+                            primaryMeasurement.fractionDigits) ??
+                        '-';
+                    final unit = primaryMeasurement?.unit ?? '';
+                    return Text(
+                      '$value $unit',
+                      style: TextStyle(fontSize: 25),
+                    );
+                  }
+                ),
               ),
               PowerSwitchView(
-                  controller: PowerSwitchController(host: device.host)),
+                  controller: GetIt.I<PowerSwitchController>(param1: device.host)
+              ),
             ],
           ),
         ),

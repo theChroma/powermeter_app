@@ -10,33 +10,33 @@ class SelectableBuilder<T> extends StatelessWidget {
   const SelectableBuilder({
     required this.id,
     required this.builder,
-    required this.selectionController,
+    required this.controller,
     super.key,
   });
 
   final T id;
   final SelectableBuilderFunction<T> builder;
-  final SelectionController<T> selectionController;
+  final SelectionController<T> controller;
 
   void toggleSelected() {
-    if (selectionController.isSelected(id)) {
-      selectionController.deselect(id);
+    if (controller.isSelected(id)) {
+      controller.deselect(id);
     }
     else {
-      selectionController.select(id);
+      controller.select(id);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: selectionController,
+      listenable: controller,
       builder: (context, child) {
         return GestureDetector(
            onLongPress: toggleSelected,
           onSecondaryTap: toggleSelected,
-          onTap: selectionController.hasSelection ? toggleSelected : null,
-          child: builder(context, selectionController.isSelected(id))
+          onTap: controller.hasSelection ? toggleSelected : null,
+          child: builder(context, controller.isSelected(id))
         );
       }
     );

@@ -1,24 +1,22 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'tracker.dart';
+part of 'tracker_config.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-Tracker _$TrackerFromJson(Map<String, dynamic> json) => Tracker(
+TrackerConfig _$TrackerConfigFromJson(Map<String, dynamic> json) =>
+    TrackerConfig(
       title: json['title'] as String,
       duration:
           TrackerConfig.durationFromJson((json['duration_s'] as num).toInt()),
       sampleCount: (json['sampleCount'] as num).toInt(),
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => (e as num?)?.toDouble())
-          .toList(),
     );
 
-Map<String, dynamic> _$TrackerToJson(Tracker instance) => <String, dynamic>{
+Map<String, dynamic> _$TrackerConfigToJson(TrackerConfig instance) =>
+    <String, dynamic>{
       'title': instance.title,
       'duration_s': TrackerConfig.durationToJson(instance.duration),
       'sampleCount': instance.sampleCount,
-      'data': instance.data,
     };

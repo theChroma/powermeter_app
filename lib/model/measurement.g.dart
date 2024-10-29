@@ -10,7 +10,7 @@ Measurement _$MeasurementFromJson(Map<String, dynamic> json) => Measurement(
       name: json['name'] as String,
       value: (json['value'] as num).toDouble(),
       unit: json['unit'] as String,
-      fractionDigits: json['fractionDigits'] as int? ?? 0,
+      fractionDigits: (json['fractionDigits'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$MeasurementToJson(Measurement instance) =>

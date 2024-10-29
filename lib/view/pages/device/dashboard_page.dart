@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:powermeter_app/controller/measurements_controller.dart';
 import 'package:powermeter_app/controller/power_switch_controller.dart';
 import 'package:powermeter_app/model/device.dart';
@@ -28,14 +29,14 @@ class DashboardPage extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                child: MeasurementsView(measurementController: MeasurementsController(host: device.host)),
+                child: MeasurementsView(measurementController: GetIt.I<MeasurementsController>()),
               ),
               SizedBox(
                 width: 200,
                 child: FittedBox(
                   fit: BoxFit.fitWidth,
                   child: PowerSwitchView(
-                    controller: PowerSwitchController(host: device.host)
+                    controller: GetIt.I<PowerSwitchController>()
                   ),
                 ),
               ),

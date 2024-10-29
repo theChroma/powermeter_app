@@ -1,22 +1,22 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:powermeter_app/helpers/api.dart' as api;
-import 'package:powermeter_app/helpers/json.dart';
+import 'package:powermeter_app/fetcher/measurements_fetcher.dart';
 import 'package:powermeter_app/helpers/lifecycle_change_notifier.dart';
 import 'package:powermeter_app/model/measurement.dart';
 
 class MeasurementsController extends LifecyleChangeNotifier {
-  MeasurementsController({required this.host});
-  final String host;
-  static const uri = '/api/v0.0.0/measurements';
-  Timer? _timer;
   List<Measurement>? measurements;
   Measurement? get primaryMeasurement => measurements?.first;
+  Timer? _timer;
+  final MeasurementsFetcher fetcher;
+
+  MeasurementsController({required this.fetcher});
 
   @override
   void addFirstListener(VoidCallback listener) {
-    _timer = Timer.periodic(Duration(milliseconds: 1500), (timer) => _fetchMeasurements());
+    fetch();
+    _timer = Timer.periodic(Duration(milliseconds: 1500), (timer) => fetch());
   }
 
   @override
@@ -24,10 +24,9 @@ class MeasurementsController extends LifecyleChangeNotifier {
     _timer?.cancel();
   }
 
-  void _fetchMeasurements() async {
+  void fetch() async {
     try {
-      final response = await http.get(Uri.http(host, uri)).timeout(Duration(milliseconds: 1500));
-      measurements = listFromJson(api.processResponse(response), Measurement.fromJson);
+      measurements = await fetcher.getMeasurements().timeout(Duration(milliseconds: 1500));
     }
     catch (exception) {
       measurements = null;

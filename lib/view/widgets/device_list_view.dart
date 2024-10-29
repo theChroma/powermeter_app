@@ -5,7 +5,7 @@ import 'package:powermeter_app/view/widgets/device_card.dart';
 import 'package:powermeter_app/view/widgets/selectable_builder.dart';
 
 class DeviceListView extends StatelessWidget {
-  final DeviceController deviceController;
+  final DevicesController deviceController;
   final SelectionController<int> selcetionController;
 
   const DeviceListView({
@@ -27,7 +27,7 @@ class DeviceListView extends StatelessWidget {
             return SelectableBuilder(
               key: ValueKey(index),
               id: index,
-              selectionController: selcetionController,
+              controller: selcetionController,
               builder: (context, isSelected) {
                 return ReorderableDragStartListener(
                   index: index,
