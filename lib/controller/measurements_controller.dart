@@ -14,19 +14,23 @@ class MeasurementsController extends LifecyleChangeNotifier {
   MeasurementsController({required this.fetcher});
 
   @override
-  void addFirstListener(VoidCallback listener) {
+  void addFirstListener(VoidCallback listener) => startPolling();
+
+  @override
+  void removeLastListener(VoidCallback listener) => stopPolling();
+
+  void startPolling() {
     fetch();
     _timer = Timer.periodic(Duration(milliseconds: 1500), (timer) => fetch());
   }
 
-  @override
-  void removeLastListener(VoidCallback listener) {
+  void stopPolling() {
     _timer?.cancel();
   }
 
   void fetch() async {
     try {
-      measurements = await fetcher.getMeasurements().timeout(Duration(milliseconds: 1500));
+      measurements = await fetcher.get().timeout(Duration(milliseconds: 1500));
     }
     catch (exception) {
       measurements = null;

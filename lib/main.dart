@@ -1,4 +1,6 @@
+import 'package:get_it/get_it.dart';
 import 'package:powermeter_app/helpers/dependencies.dart';
+import 'package:powermeter_app/model/device.dart';
 import 'package:powermeter_app/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:powermeter_app/view/pages/overview_page.dart';
@@ -26,6 +28,9 @@ class _PowerMeterAppState extends State<PowerMeterApp> {
       darkTheme: darkTheme,
       theme: lightTheme,
       home: ErrorBuilder(child: OverviewPage()),
+      navigatorObservers: [
+        GetIt.I<RouteObserver>(),
+      ],
     );
   }
 }

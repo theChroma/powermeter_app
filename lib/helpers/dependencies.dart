@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:powermeter_app/controller/device_controller.dart';
+import 'package:powermeter_app/controller/devices_controller.dart';
 import 'package:powermeter_app/controller/measurements_controller.dart';
 import 'package:powermeter_app/controller/power_switch_controller.dart';
 import 'package:powermeter_app/controller/trackers_controller.dart';
@@ -75,6 +76,8 @@ Future<void> registerDependencies() async {
     ),
     dependsOn: [DevicesFetcher],
   );
+
+  GetIt.I.registerSingleton<RouteObserver>(RouteObserver<PageRoute>());
 
   await GetIt.I.allReady();
 }

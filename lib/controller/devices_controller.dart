@@ -9,7 +9,7 @@ class DevicesController extends ChangeNotifier {
 
   List<Device> get devices {
     try {
-      return fetcher.readDevices();
+      return fetcher.read();
     }
     catch (exception) {
       return [];
@@ -17,7 +17,7 @@ class DevicesController extends ChangeNotifier {
   }
 
   Future<void> add(Device newDevice) async {
-    await fetcher.writeDevices([newDevice, ...devices]);
+    await fetcher.write([newDevice, ...devices]);
     notifyListeners();
   }
 
@@ -27,7 +27,7 @@ class DevicesController extends ChangeNotifier {
     for (final index in indices) {
       newDevices.removeAt(index);
     }
-    await fetcher.writeDevices(newDevices);
+    await fetcher.write(newDevices);
     notifyListeners();
   }
 
@@ -37,14 +37,14 @@ class DevicesController extends ChangeNotifier {
     }
     final reorderdDevices = devices;
     reorderdDevices.insert(newIndex, reorderdDevices.removeAt(oldIndex));
-    await fetcher.writeDevices(reorderdDevices);
+    await fetcher.write(reorderdDevices);
     notifyListeners();
   }
 
   Future<void> replace(int index, Device newDevice) async {
     final newDevices = devices;
     newDevices[index] = newDevice;
-    await fetcher.writeDevices(newDevices);
+    await fetcher.write(newDevices);
     notifyListeners();
   }
 }

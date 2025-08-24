@@ -1,22 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:get_it/get_it.dart';
-import 'package:powermeter_app/controller/device_controller.dart';
+import 'package:powermeter_app/controller/devices_controller.dart';
 import 'package:powermeter_app/model/device.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 class AddDevicePage extends StatelessWidget {
-  final deviceController = GetIt.I<DevicesController>();
   final int? deviceIndex;
   AddDevicePage({this.deviceIndex, super.key});
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    final Device? device = deviceIndex != null ? deviceController.devices[deviceIndex!] : null;
+    final devicesController = GetIt.I<DevicesController>();
+    final isEditing = deviceIndex != null;
+    final Device? device = isEditing ? devicesController.devices[deviceIndex!] : null;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(deviceIndex == null ? 'Add Device' : 'Edit Device'),
+        title: Text(isEditing ? 'Edit Device' : 'Add Device'),
         leading: BackButton(
           onPressed: () {
             Navigator.pop(context);
@@ -57,11 +59,11 @@ class AddDevicePage extends StatelessWidget {
           if (formKey.currentState == null) return;
           if (formKey.currentState!.saveAndValidate()) {
             final newDevice = Device.fromJson(formKey.currentState!.value);
-            if (deviceIndex == null) {
-              deviceController.add(newDevice);
+            if (isEditing) {
+              devicesController.replace(deviceIndex!, newDevice);
             }
             else {
-              deviceController.replace(deviceIndex!, newDevice);
+              devicesController.add(newDevice);
             }
             Navigator.pop(context);
           }

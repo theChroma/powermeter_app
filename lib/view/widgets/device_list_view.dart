@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:powermeter_app/controller/device_controller.dart';
+import 'package:powermeter_app/controller/devices_controller.dart';
 import 'package:powermeter_app/controller/selection_controller.dart';
 import 'package:powermeter_app/view/widgets/device_card.dart';
 import 'package:powermeter_app/view/widgets/selectable_builder.dart';
 
 class DeviceListView extends StatelessWidget {
-  final DevicesController deviceController;
+  final DevicesController devicesController;
   final SelectionController<int> selcetionController;
 
   const DeviceListView({
-    required this.deviceController,
+    required this.devicesController,
     required this.selcetionController,
     super.key,
   });
@@ -17,11 +17,11 @@ class DeviceListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
-      listenable: deviceController,
+      listenable: devicesController,
       builder: (context, child) {
         return ReorderableListView(
           buildDefaultDragHandles: false,
-          children: deviceController.devices.indexed.map((deviceAt) {
+          children: devicesController.devices.indexed.map((deviceAt) {
             final index = deviceAt.$1;
             final device = deviceAt.$2;
             return SelectableBuilder(
@@ -43,7 +43,7 @@ class DeviceListView extends StatelessWidget {
           }).toList(),
           onReorder: (oldIndex, newIndex) {
             reorderSelections(oldIndex, newIndex);
-            deviceController.reorder(oldIndex, newIndex);
+            devicesController.reorder(oldIndex, newIndex);
         });
       },
     );

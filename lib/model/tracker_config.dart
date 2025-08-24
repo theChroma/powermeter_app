@@ -23,9 +23,6 @@ class TrackerConfig {
   factory TrackerConfig.fromJson(Map<String, dynamic> json) => _$TrackerConfigFromJson(json);
   Map<String, dynamic> toJson() => _$TrackerConfigToJson(this);
 
-  static Duration durationFromJson(int seconds) => Duration(seconds: seconds);
-  static int durationToJson(Duration duration) => duration.inSeconds;
-
   String getTimeLabel(int index) {
     final begin = DateTime.now().subtract(duration);
     final step = duration ~/ sampleCount;
@@ -45,3 +42,6 @@ class TrackerConfig {
     return DateFormat.y();
   }
 }
+
+Duration durationFromJson(int seconds) => Duration(seconds: seconds);
+int durationToJson(Duration duration) => duration.inSeconds;

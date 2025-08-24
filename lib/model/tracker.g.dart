@@ -8,8 +8,7 @@ part of 'tracker.dart';
 
 Tracker _$TrackerFromJson(Map<String, dynamic> json) => Tracker(
       title: json['title'] as String,
-      duration:
-          TrackerConfig.durationFromJson((json['duration_s'] as num).toInt()),
+      duration: durationFromJson((json['duration_s'] as num).toInt()),
       sampleCount: (json['sampleCount'] as num).toInt(),
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => (e as num?)?.toDouble())
@@ -18,7 +17,7 @@ Tracker _$TrackerFromJson(Map<String, dynamic> json) => Tracker(
 
 Map<String, dynamic> _$TrackerToJson(Tracker instance) => <String, dynamic>{
       'title': instance.title,
-      'duration_s': TrackerConfig.durationToJson(instance.duration),
+      'duration_s': durationToJson(instance.duration),
       'sampleCount': instance.sampleCount,
       'data': instance.data,
     };

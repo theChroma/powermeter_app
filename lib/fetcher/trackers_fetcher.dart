@@ -9,7 +9,7 @@ class TrackersFetcher {
 
   TrackersFetcher({required this.host});
 
-  Future<Map<String, Tracker>> getTrackers() async {
+  Future<Map<String, Tracker>> get() async {
     final response = await http.get(Uri.http(host, uri));
     return mapFromJson(api.processResponse(response), Tracker.fromJson);
   }

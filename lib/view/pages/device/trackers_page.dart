@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:powermeter_app/controller/selection_controller.dart';
 import 'package:powermeter_app/controller/trackers_controller.dart';
 import 'package:powermeter_app/model/device.dart';
+import 'package:powermeter_app/view/pages/device/add_tracker_page.dart';
 import 'package:powermeter_app/view/widgets/app_bar_listenable_builder.dart';
 import 'package:powermeter_app/view/widgets/tracker_list_view.dart';
 
@@ -35,7 +36,9 @@ class TrackersPage extends StatelessWidget {
                 actions: [
                   if (selectionController.selectionsCount == 1) IconButton(
                     onPressed: () async {
-
+                      await Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => AddTrackerPage(trackerId: selectionController.selections.first)
+                      ));
                       selectionController.deselectAll();
                     },
                     icon: Icon(Icons.edit),
@@ -43,7 +46,30 @@ class TrackersPage extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.delete),
                     onPressed: () async {
-
+                      await showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text('Are you sure?'),
+                          content: Text('Are you sure you want to delete all selected Devices?'),
+                          actions: [
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () {
+                                trackersController.delete(selectionController.selections).then(
+                                  (_) => selectionController.deselectAll()
+                                );
+                                Navigator.pop(context);
+                              },
+                            ),
+                            TextButton(
+                              child: Text('Cancel'),
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                            )
+                          ],
+                        ),
+                      );
                       selectionController.deselectAll();
                     },
                   ),
@@ -71,7 +97,7 @@ class TrackersPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add_rounded),
         onPressed: () {
-
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddTrackerPage()));
         },
       ),
     );

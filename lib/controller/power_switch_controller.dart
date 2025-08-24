@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:powermeter_app/fetcher/power_switch_fetcher.dart';
 import 'package:powermeter_app/helpers/lifecycle_change_notifier.dart';
 
-
 class PowerSwitchController extends LifecyleChangeNotifier {
   final PowerSwitchFetcher fetcher;
   bool? state;
@@ -17,22 +16,28 @@ class PowerSwitchController extends LifecyleChangeNotifier {
 
   @override
   void addFirstListener(VoidCallback listener) {
-    fetch();
-    _timer = Timer.periodic(Duration(seconds: 5), (timer) => fetch());
+    startPolling();
   }
 
   @override
   void removeLastListener(VoidCallback listener) {
-    _timer?.cancel();
+    stopPolling();
   }
+
+  void startPolling() {
+    fetch();
+    _timer = Timer.periodic(Duration(seconds: 5), (timer) => fetch());
+  }
+
+  void stopPolling() => _timer?.cancel();
 
   void toggle() {
     if (state == null) return;
-    _updateState(fetcher.updateState(!state!));
+    _updateState(fetcher.update(!state!));
   }
 
   void fetch() {
-    _updateState(fetcher.getState());
+    _updateState(fetcher.get());
   }
 
   void _updateState(Future<bool> newState) async {

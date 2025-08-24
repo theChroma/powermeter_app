@@ -19,4 +19,24 @@ class Tracker extends TrackerConfig {
   @override
   Map<String, dynamic> toJson() => _$TrackerToJson(this);
 
+  /// Returns the average Power during the duration of the [Tracker] in Watts.
+  double? get averagePower {
+    if (data == null) {
+      return null;
+    }
+    double sum = 0;
+    for (final value in data!) {
+      sum += value ?? 0;
+    }
+    return sum / data!.length;
+  }
+
+  /// Returns the amount of energy in kWh measured in during
+  /// the duration of the [Tracker]
+  double? get energy {
+    if (averagePower == null) {
+      return null;
+    }
+    return averagePower! * duration.inHours / 1000;
+  }
 }

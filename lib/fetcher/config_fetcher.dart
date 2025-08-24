@@ -17,22 +17,22 @@ class ConfigFetcher<T> {
     required this.toJson
   });
 
-  Future<T> getConfig() async {
+  Future<T> get() async {
     final response = await http.get(Uri.http(host, uri));
     return fromJson(api.processResponse(response));
   }
 
-  Future<T> getDefaultConfig() async {
+  Future<T> getDefault() async {
     final response = await http.get(Uri.http(host, uri + '/default'));
     return fromJson(api.processResponse(response));
   }
 
-  Future<T> updateConfig(T newConfig) async {
+  Future<T> update(T newConfig) async {
     final response = await http.patch(Uri.http(host, uri), body: jsonEncode(toJson(newConfig)));
     return fromJson(api.processResponse(response));
   }
 
-  Future<T> restoreDefaultConfig() async {
+  Future<T> restoreDefault() async {
     final response = await http.post(Uri.http(host, uri + '/restore-default'));
     return fromJson(api.processResponse(response));
   }

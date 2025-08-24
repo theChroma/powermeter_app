@@ -9,12 +9,12 @@ class PowerSwitchFetcher {
 
   PowerSwitchFetcher({required this.host});
 
-  Future<bool> getState() async {
+  Future<bool> get() async {
     final response = await http.get(Uri.http(host, uri));
     return api.processResponse(response);
   }
 
-  Future<bool> updateState(bool newState) async {
+  Future<bool> update(bool newState) async {
     final response = await http.patch(Uri.http(host, uri), body: jsonEncode(newState));
     return api.processResponse(response);
   }

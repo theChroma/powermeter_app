@@ -4,6 +4,8 @@ import 'package:powermeter_app/fetcher/trackers_config_fetcher.dart';
 import 'package:powermeter_app/fetcher/trackers_fetcher.dart';
 import 'package:powermeter_app/helpers/lifecycle_change_notifier.dart';
 import 'package:powermeter_app/model/tracker.dart';
+import 'package:powermeter_app/model/tracker_config.dart';
+import 'package:powermeter_app/model/trackers_config.dart';
 
 class TrackersController extends LifecyleChangeNotifier {
   Timer? _timer;
@@ -28,7 +30,7 @@ class TrackersController extends LifecyleChangeNotifier {
   }
 
   Future<void> fetch() async {
-    final unsortedTrackers = await fetcher.getTrackers();
+    final unsortedTrackers = await fetcher.get();
     trackers = Map.fromEntries(
       unsortedTrackers.entries
       .toList()
@@ -37,5 +39,26 @@ class TrackersController extends LifecyleChangeNotifier {
       )
     );
     notifyListeners();
+  }
+
+  Future<void> add(TrackerConfig newTrackerConfig) async {
+    trackers = null;
+    notifyListeners();
+    await configFetcher.add(newTrackerConfig);
+    await fetch();
+  }
+
+  Future<void> update(String id, TrackerConfig newTrackerConfig) async {
+    trackers = null;
+    notifyListeners();
+    await configFetcher.update(TrackersConfig(trackers: {id: newTrackerConfig}));
+    await fetch();
+  }
+
+  Future<void> delete(Set<String> ids) async {
+    trackers = null;
+    notifyListeners();
+    await configFetcher.delete(ids);
+    await fetch();
   }
 }

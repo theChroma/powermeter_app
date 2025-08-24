@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:powermeter_app/model/tracker.dart';
+import 'package:collection/collection.dart';
 
 class TrackerCard extends StatelessWidget {
   final Tracker tracker;
@@ -14,12 +15,20 @@ class TrackerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final segments = _segments;
     final chartData = LineChartData(
-      lineBarsData: [
-        LineChartBarData(
-          spots: spots ?? const [],
+      lineBarsData: _segments.map((segment) => LineChartBarData(
+          color: segment.isNull
+               ? Colors.red
+               : Theme.of(context).colorScheme.primary,
+          dashArray: segment.isNull ? [2, 2] : null,
+          isCurved: true,
+          curveSmoothness: 0.2,
+          preventCurveOverShooting: true,
+          preventCurveOvershootingThreshold: 1,
+          spots: segment.value,
         ),
-      ],
+      ).toList(),
       titlesData: FlTitlesData(
         rightTitles: AxisTitles(
           sideTitles: SideTitles(showTitles: false)
@@ -66,10 +75,45 @@ class TrackerCard extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: 300,
+                  height: 400,
                   child: Padding(
                     padding: const EdgeInsets.only(right: 15),
                     child: LineChart(chartData),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                  child: Divider()
+                ),
+                FittedBox(
+                  child: DefaultTextStyle.merge(
+                    style: Theme.of(context).textTheme.bodyLarge,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const [
+                            Text(
+                              'Energy',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'Average Power',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text('${tracker.energy?.toStringAsFixed(2) ?? '-'} kWh'),
+                            Text('${tracker.averagePower?.toStringAsFixed(2) ?? '-'} W'),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -80,9 +124,59 @@ class TrackerCard extends StatelessWidget {
     );
   }
 
-  List<FlSpot>? get spots {
-    return tracker.data?.indexed.map(
-      (value) => FlSpot(value.$1.toDouble(), value.$2 ?? 0)
-    ).toList();
+  List<_Nullable<List<FlSpot>>> get _segments {
+    if (tracker.data == null) return [];
+
+    final segments = splitIntoSegments(tracker.data!);
+    List<_Nullable<List<FlSpot>>> spotSegments = [];
+    int i = 0;
+    FlSpot? previousSpot;
+    for (final segment in segments) {
+      List<FlSpot> spotSegment = [if (previousSpot != null) previousSpot];
+      for (final value in segment) {
+        final spot = FlSpot(i.toDouble(), value ?? 0);
+        spotSegment.add(spot);
+        previousSpot = spot;
+        i++;
+      }
+      spotSegments.add(_Nullable(value: spotSegment, isNull: segment.first == null));
+    }
+    return spotSegments;
   }
+}
+
+class _Nullable<T> {
+  final T value;
+  final bool isNull;
+
+  _Nullable({
+    required this.value,
+    required this.isNull,
+  });
+}
+
+List<List<double?>> splitIntoSegments(List<double?> values) {
+  List<List<double?>> segments = [];
+  List<double?> currentSegment = [];
+  bool isCurrentSegmentNull = values.first == null;
+
+  for (var value in values) {
+    if (value == null) {
+      if (!isCurrentSegmentNull) {
+        currentSegment = [];
+        isCurrentSegmentNull = true;
+      }
+    } else {
+      if (isCurrentSegmentNull) {
+        segments.add(currentSegment);
+        currentSegment = [];
+        isCurrentSegmentNull = false;
+      }
+    }
+    currentSegment.add(value);
+  }
+  if (currentSegment.isNotEmpty) {
+    segments.add(currentSegment);
+  }
+  return segments;
 }

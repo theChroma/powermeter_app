@@ -9,7 +9,7 @@ class MeasurementsFetcher {
 
   MeasurementsFetcher({required this.host});
 
-  Future<List<Measurement>> getMeasurements() async {
+  Future<List<Measurement>> get() async {
     final response = await http.get(Uri.http(host, uri));
     return listFromJson(api.processResponse(response), Measurement.fromJson);
   }

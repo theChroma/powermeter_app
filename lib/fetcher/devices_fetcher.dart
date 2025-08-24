@@ -10,11 +10,11 @@ class DevicesFetcher {
 
   DevicesFetcher({required this.preferences});
 
-  List<Device> readDevices() {
+  List<Device> read() {
     return listFromJson(jsonDecode(preferences.getString(storageKey)!), Device.fromJson);
   }
 
-  Future<void> writeDevices(List<Device> devices) async {
+  Future<void> write(List<Device> devices) async {
     await preferences.setString(
       storageKey,
       jsonEncode(

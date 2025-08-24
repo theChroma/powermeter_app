@@ -21,6 +21,7 @@ class DeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final measurementController = GetIt.I<MeasurementsController>(param1: device.host);
+    final powerSwitchController = GetIt.I<PowerSwitchController>(param1: device.host);
 
     final child = SizedBox(
       width: 1000,
@@ -62,9 +63,7 @@ class DeviceCard extends StatelessWidget {
                   }
                 ),
               ),
-              PowerSwitchView(
-                  controller: GetIt.I<PowerSwitchController>(param1: device.host)
-              ),
+              PowerSwitchView(controller: powerSwitchController),
             ],
           ),
         ),
@@ -74,8 +73,16 @@ class DeviceCard extends StatelessWidget {
     if (isSelectionMode) return child;
     return GestureDetector(
       onTap: () {
+        measurementController.stopPolling();
+        powerSwitchController.stopPolling();
         Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return DevicePage(device: device);
+          return PopScope(
+            onPopInvokedWithResult: (didPop, result) {
+              measurementController.startPolling();
+              powerSwitchController.stopPolling();
+            },
+            child: DevicePage(device: device)
+          );
         }));
       },
       child: child,

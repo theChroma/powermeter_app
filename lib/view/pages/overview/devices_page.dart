@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:powermeter_app/controller/device_controller.dart';
+import 'package:powermeter_app/controller/devices_controller.dart';
 import 'package:powermeter_app/controller/selection_controller.dart';
 import 'package:powermeter_app/view/pages/wizard/add_device_page.dart';
 import 'package:powermeter_app/view/widgets/app_bar_listenable_builder.dart';
@@ -89,7 +89,7 @@ class DevicesPage extends StatelessWidget {
           child: SizedBox(
             width: 1000,
             child: DeviceListView(
-              deviceController: GetIt.I<DevicesController>(),
+              devicesController: GetIt.I<DevicesController>(),
               selcetionController: selectionController,
             ),
           ),
