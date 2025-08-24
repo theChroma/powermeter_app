@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:powermeter_app/model/tracker.dart';
-import 'package:collection/collection.dart';
 
 class TrackerCard extends StatelessWidget {
   final Tracker tracker;
@@ -15,7 +14,6 @@ class TrackerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final segments = _segments;
     final chartData = LineChartData(
       lineBarsData: _segments.map((segment) => LineChartBarData(
           color: segment.isNull
